@@ -18,15 +18,8 @@ import flickr.demo.qvdev.com.flickrdemo.dummy.DummyContent;
  * on handsets.
  */
 public class FlickrItemDetailFragment extends Fragment {
-    /**
-     * The fragment argument representing the item ID that this fragment
-     * represents.
-     */
-    public static final String ARG_ITEM_ID = "item_id";
 
-    /**
-     * The dummy content this fragment is presenting.
-     */
+    public static final String ARG_ITEM_ID = "item_id";
     private DummyContent.DummyItem mItem;
 
     /**
@@ -34,6 +27,7 @@ public class FlickrItemDetailFragment extends Fragment {
      * fragment (e.g. upon screen orientation changes).
      */
     public FlickrItemDetailFragment() {
+        // ;
     }
 
     @Override

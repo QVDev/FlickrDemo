@@ -1,11 +1,13 @@
 package flickr.demo.qvdev.com.flickrdemo;
 
+import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+
+import java.util.List;
 
 import flickr.demo.qvdev.com.flickrdemo.dummy.DummyContent;
 
@@ -19,32 +21,65 @@ import flickr.demo.qvdev.com.flickrdemo.dummy.DummyContent;
  */
 public class FlickrItemListActivity extends AppCompatActivity {
 
+    private final List<DummyContent.DummyItem> mFlickrItems = DummyContent.ITEMS;
+    private RecyclerView mRecyclerView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_flickritem_list);
 
+        setupToolbar();
+        setupRecyclerView();
+    }
+
+    private void setupToolbar() {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         toolbar.setTitle(getTitle());
-
-        View recyclerView = findViewById(R.id.flickritem_list);
-        assert recyclerView != null;
-        setupRecyclerView((RecyclerView) recyclerView);
     }
 
-    private void setupRecyclerView(@NonNull RecyclerView recyclerView) {
-        boolean isTwoPane = false;
-        if (findViewById(R.id.flickritem_detail_container) != null) {
-            // The detail container view will be present only in the
-            // large-screen layouts (res/values-w900dp).
-            // If this view is present, then the
-            // activity should be in two-pane mode.
-            isTwoPane = true;
+    private void setupRecyclerView() {
+        mRecyclerView = (RecyclerView) findViewById(R.id.flickritem_list);
+        assert mRecyclerView != null;
+        mRecyclerView.setAdapter(new FlickrItemRecyclerViewAdapter(mFlickrItems));
+    }
+
+
+    /**
+     * The onclick is set in flickritem_list_content.xml
+     *
+     * @param view The view that is clicked
+     */
+    public void flickrItemClicked(View view) {
+        // mIsTwoPane is for larger screen w300 it will have a detail view in same screen
+        boolean isTwoPane = findViewById(R.id.flickritem_detail_container) != null;
+
+        // Get the matching FlickrItem from the recyclerView
+        DummyContent.DummyItem item = mFlickrItems.get(mRecyclerView.getChildAdapterPosition(view));
+        if (isTwoPane) {
+            showDetailsInPane(item);
+        } else {
+            showDetailsInActivity(item);
         }
-
-        recyclerView.setAdapter(new SimpleItemRecyclerViewAdapter(DummyContent.ITEMS, getSupportFragmentManager(), isTwoPane));
     }
 
+    // Larger screens w300 will replace the fragment for detail view
+    private void showDetailsInPane(DummyContent.DummyItem item) {
+        Bundle arguments = new Bundle();
+        arguments.putString(FlickrItemDetailFragment.ARG_ITEM_ID, item.id);
+        FlickrItemDetailFragment fragment = new FlickrItemDetailFragment();
+        fragment.setArguments(arguments);
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.flickritem_detail_container, fragment)
+                .commit();
+    }
 
+    // Smaller screens < w300 will open a new activity for detail view
+    private void showDetailsInActivity(DummyContent.DummyItem item) {
+        Intent intent = new Intent(this, FlickrItemDetailActivity.class);
+        intent.putExtra(FlickrItemDetailFragment.ARG_ITEM_ID, item.id);
+
+        startActivity(intent);
+    }
 }
