@@ -6,7 +6,10 @@ import android.widget.TextView;
 
 class FlickrViewHolder extends RecyclerView.ViewHolder {
 
+    //Suppress for testing possibilities
+    @SuppressWarnings("CanBeFinal")
     TextView itemId;
+    @SuppressWarnings("CanBeFinal")
     TextView itemContent;
 
     FlickrViewHolder(View view) {
