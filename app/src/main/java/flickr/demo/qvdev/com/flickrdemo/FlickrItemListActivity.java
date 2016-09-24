@@ -7,6 +7,8 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 
+import com.facebook.drawee.backends.pipeline.Fresco;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -39,9 +41,9 @@ public class FlickrItemListActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_flickritem_list);
 
+        Fresco.initialize(this);
         setupToolbar();
         setupRecyclerView();
-
         loadFlickrItems();
     }
 
