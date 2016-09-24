@@ -9,12 +9,12 @@ import java.util.List;
 
 import flickr.demo.qvdev.com.flickrdemo.dummy.DummyContent;
 
-class SimpleItemRecyclerViewAdapter
+class FlickrItemRecyclerViewAdapter
         extends RecyclerView.Adapter<FlickrViewHolder> {
 
     private final List<DummyContent.DummyItem> mItems;
 
-    SimpleItemRecyclerViewAdapter(List<DummyContent.DummyItem> items) {
+    FlickrItemRecyclerViewAdapter(List<DummyContent.DummyItem> items) {
         mItems = items;
     }
 

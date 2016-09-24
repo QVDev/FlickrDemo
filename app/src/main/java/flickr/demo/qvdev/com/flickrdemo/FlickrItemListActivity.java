@@ -43,7 +43,7 @@ public class FlickrItemListActivity extends AppCompatActivity {
     private void setupRecyclerView(@NonNull RecyclerView recyclerView) {
         // For larger screen w300 it will have a detail view in same screen
         mIsTwoPane = findViewById(R.id.flickritem_detail_container) != null;
-        recyclerView.setAdapter(new SimpleItemRecyclerViewAdapter(mFlickrItems));
+        recyclerView.setAdapter(new FlickrItemRecyclerViewAdapter(mFlickrItems));
     }
 
 
