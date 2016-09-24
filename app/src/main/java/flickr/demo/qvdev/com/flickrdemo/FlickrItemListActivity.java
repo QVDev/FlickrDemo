@@ -2,7 +2,6 @@ package flickr.demo.qvdev.com.flickrdemo;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -30,21 +29,28 @@ public class FlickrItemListActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_flickritem_list);
 
+        setupToolbar();
+        setupRecyclerView();
+    }
+
+    private void setupToolbar() {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         toolbar.setTitle(getTitle());
+    }
 
+    private void setupRecyclerView() {
         mRecyclerView = (RecyclerView) findViewById(R.id.flickritem_list);
         assert mRecyclerView != null;
-
-        setupRecyclerView(mRecyclerView);
-    }
-
-    private void setupRecyclerView(@NonNull RecyclerView recyclerView) {
-        recyclerView.setAdapter(new FlickrItemRecyclerViewAdapter(mFlickrItems));
+        mRecyclerView.setAdapter(new FlickrItemRecyclerViewAdapter(mFlickrItems));
     }
 
 
+    /**
+     * The onclick is set in flickritem_list_content.xml
+     *
+     * @param view The view that is clicked
+     */
     public void flickrItemClicked(View view) {
         // mIsTwoPane is for larger screen w300 it will have a detail view in same screen
         boolean isTwoPane = findViewById(R.id.flickritem_detail_container) != null;
