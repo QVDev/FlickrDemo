@@ -2,6 +2,7 @@ package flickr.demo.qvdev.com.flickrdemo;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -45,14 +46,14 @@ public class FlickrItemDetailFragment extends Fragment {
     }
 
     private void loadPhotoDetails(String photoId) {
-        FlickrApiAdapter flickrApiAdapter = new FlickrApiAdapter();
+        final FlickrApiAdapter flickrApiAdapter = new FlickrApiAdapter();
         final Observable<PhotoDetail> photo = flickrApiAdapter.getPhotoDetails(photoId);
 
         photo.subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Action1<PhotoDetail>() {
                     @Override
-                    public void call(PhotoDetail photo) {
+                    public void call(@NonNull final PhotoDetail photo) {
                         itemDetailsLoaded(photo);
                     }
                 });

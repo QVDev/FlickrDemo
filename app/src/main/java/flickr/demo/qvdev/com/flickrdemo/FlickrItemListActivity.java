@@ -29,6 +29,8 @@ import rx.schedulers.Schedulers;
 public class FlickrItemListActivity extends AppCompatActivity {
 
     private final List<Photo_> mFlickrItems = new ArrayList<>();
+    private final FlickrApiAdapter mFlickrApiAdapter = new FlickrApiAdapter();
+
     private RecyclerView mRecyclerView;
 
     @Override
@@ -55,14 +57,13 @@ public class FlickrItemListActivity extends AppCompatActivity {
     }
 
     private void loadFlickrItems() {
-        FlickrApiAdapter flickrApiAdapter = new FlickrApiAdapter();
-        Observable<SearchResult> search = flickrApiAdapter.SearchImages("Skyline", 1);
+        final Observable<SearchResult> search = mFlickrApiAdapter.SearchImages("Skyline", 1);
 
         search.subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Action1<SearchResult>() {
                     @Override
-                    public void call(SearchResult searchResult) {
+                    public void call(final SearchResult searchResult) {
                         mFlickrItems.addAll(searchResult.getPhotos().getPhoto());
                         mRecyclerView.getAdapter().notifyDataSetChanged();
                     }
