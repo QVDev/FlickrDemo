@@ -1,14 +1,8 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.facebook.drawee.view.SimpleDraweeView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:fresco="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/medium_image"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
-
-    <com.facebook.drawee.view.SimpleDraweeView
-        android:id="@+id/medium_image"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        fresco:viewAspectRatio="1.33"
-        android:scaleType="fitXY"
-        fresco:placeholderImage="@android:drawable/gallery_thumb" />
-
-</LinearLayout>
+    android:layout_height="wrap_content"
+    android:scaleType="fitXY"
+    fresco:placeholderImage="@android:drawable/gallery_thumb"
+    fresco:viewAspectRatio="1.33" />
