@@ -1,0 +1,33 @@
+#
+# Build configuration for Circle CI
+#
+# See this thread for speeding up and caching directories: https://discuss.circleci.com/t/installing-android-build-tools-23-0-2/924
+# Copied and adjusted from GIST https://gist.github.com/donnfelker/8181c85494cfd6f5b5a874dd126c985a
+#
+
+general:
+    artifacts:
+        - /home/ubuntu/FlickrDemo/app/build/outputs/apk/
+
+machine:
+    environment:
+        ANDROID_HOME: /usr/local/android-sdk-linux
+
+
+dependencies:
+    pre:
+        - ( sleep 5 && while [ 1 ]; do sleep 1; echo y; done ) | android update sdk --no-ui --all --filter "tools,platform-tools,android-24,extra-google-m2repository,extra-android-m2repository,extra-android-support"
+        - echo y | android update sdk --no-ui --all --filter "build-tools-24.0.2"
+
+    cache_directories:
+        - /usr/local/android-sdk-linux/tools
+        - /usr/local/android-sdk-linux/build-tools/24.0.2
+
+test:
+    override:
+        - ./gradlew clean jacocoTestDebugUnitTestReport assembleDebug
+        - cp -r app/build/outputs $CIRCLE_ARTIFACTS
+        - mkdir -p $CIRCLE_TEST_REPORTS/junit/
+        - find . -type f -regex ".*/build/test-results/.*xml" -exec cp {} $CIRCLE_TEST_REPORTS/junit/ \;
+    post:
+        - bash <(curl -s https://codecov.io/bash)
