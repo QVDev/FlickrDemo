@@ -22,7 +22,6 @@ import flickr.demo.qvdev.com.flickrdemo.dummy.DummyContent;
  */
 public class FlickrItemListActivity extends AppCompatActivity {
 
-    private boolean mIsTwoPane;
     private List<DummyContent.DummyItem> mFlickrItems = DummyContent.ITEMS;
     private RecyclerView mRecyclerView;
 
@@ -37,35 +36,44 @@ public class FlickrItemListActivity extends AppCompatActivity {
 
         mRecyclerView = (RecyclerView) findViewById(R.id.flickritem_list);
         assert mRecyclerView != null;
+
         setupRecyclerView(mRecyclerView);
     }
 
     private void setupRecyclerView(@NonNull RecyclerView recyclerView) {
-        // For larger screen w300 it will have a detail view in same screen
-        mIsTwoPane = findViewById(R.id.flickritem_detail_container) != null;
         recyclerView.setAdapter(new FlickrItemRecyclerViewAdapter(mFlickrItems));
     }
 
 
     public void flickrItemClicked(View view) {
+        // mIsTwoPane is for larger screen w300 it will have a detail view in same screen
+        boolean isTwoPane = findViewById(R.id.flickritem_detail_container) != null;
+
         // Get the matching FlickrItem from the recyclerView
         DummyContent.DummyItem item = mFlickrItems.get(mRecyclerView.getChildAdapterPosition(view));
-
-        if (mIsTwoPane) {
-            // Larger screens w300 will replace the fragment for detail view
-            Bundle arguments = new Bundle();
-            arguments.putString(FlickrItemDetailFragment.ARG_ITEM_ID, item.id);
-            FlickrItemDetailFragment fragment = new FlickrItemDetailFragment();
-            fragment.setArguments(arguments);
-            getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.flickritem_detail_container, fragment)
-                    .commit();
+        if (isTwoPane) {
+            showDetailsInPane(item);
         } else {
-            // Smaller screens < w300 will open a new activity for detail view
-            Intent intent = new Intent(this, FlickrItemDetailActivity.class);
-            intent.putExtra(FlickrItemDetailFragment.ARG_ITEM_ID, item.id);
-
-            startActivity(intent);
+            showDetailsInActivity(item);
         }
+    }
+
+    // Larger screens w300 will replace the fragment for detail view
+    private void showDetailsInPane(DummyContent.DummyItem item) {
+        Bundle arguments = new Bundle();
+        arguments.putString(FlickrItemDetailFragment.ARG_ITEM_ID, item.id);
+        FlickrItemDetailFragment fragment = new FlickrItemDetailFragment();
+        fragment.setArguments(arguments);
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.flickritem_detail_container, fragment)
+                .commit();
+    }
+
+    // Smaller screens < w300 will open a new activity for detail view
+    private void showDetailsInActivity(DummyContent.DummyItem item) {
+        Intent intent = new Intent(this, FlickrItemDetailActivity.class);
+        intent.putExtra(FlickrItemDetailFragment.ARG_ITEM_ID, item.id);
+
+        startActivity(intent);
     }
 }
