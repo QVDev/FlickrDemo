@@ -9,7 +9,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import flickr.demo.qvdev.com.flickrdemo.dummy.DummyContent;
+import flickr.demo.qvdev.com.flickrdemo.model.Photo;
+import flickr.demo.qvdev.com.flickrdemo.model.Title;
 
 /**
  * A fragment representing a single FlickrItem detail screen.
@@ -20,7 +21,7 @@ import flickr.demo.qvdev.com.flickrdemo.dummy.DummyContent;
 public class FlickrItemDetailFragment extends Fragment {
 
     public static final String ARG_ITEM_ID = "item_id";
-    private DummyContent.DummyItem mItem;
+    private Photo mItem;
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -35,16 +36,24 @@ public class FlickrItemDetailFragment extends Fragment {
         super.onCreate(savedInstanceState);
 
         if (getArguments().containsKey(ARG_ITEM_ID)) {
-            // Load the dummy content specified by the fragment
-            // arguments. In a real-world scenario, use a Loader
-            // to load content from a content provider.
-            mItem = DummyContent.ITEM_MAP.get(getArguments().getString(ARG_ITEM_ID));
+            loadMockedItemDetails(getArguments().getString(ARG_ITEM_ID));
+        }
+    }
 
-            Activity activity = this.getActivity();
-            CollapsingToolbarLayout appBarLayout = (CollapsingToolbarLayout) activity.findViewById(R.id.toolbar_layout);
-            if (appBarLayout != null) {
-                appBarLayout.setTitle(mItem.content);
-            }
+    private void loadMockedItemDetails(String photoId) {
+        mItem = new Photo();
+        mItem.setId(photoId);
+        Title title = new Title();
+        title.set_content(photoId);
+        mItem.setTitle(title);
+        itemDetailsLoaded();
+    }
+
+    private void itemDetailsLoaded() {
+        Activity activity = this.getActivity();
+        CollapsingToolbarLayout appBarLayout = (CollapsingToolbarLayout) activity.findViewById(R.id.toolbar_layout);
+        if (appBarLayout != null) {
+            appBarLayout.setTitle(mItem.getId());
         }
     }
 
@@ -55,7 +64,7 @@ public class FlickrItemDetailFragment extends Fragment {
 
         // Show the dummy content as text in a TextView.
         if (mItem != null) {
-            ((TextView) rootView.findViewById(R.id.flickritem_detail)).setText(mItem.details);
+            ((TextView) rootView.findViewById(R.id.flickritem_detail)).setText(mItem.getTitle().get_content());
         }
 
         return rootView;

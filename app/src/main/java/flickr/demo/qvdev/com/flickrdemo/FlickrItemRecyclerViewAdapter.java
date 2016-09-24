@@ -7,14 +7,14 @@ import android.view.ViewGroup;
 
 import java.util.List;
 
-import flickr.demo.qvdev.com.flickrdemo.dummy.DummyContent;
+import flickr.demo.qvdev.com.flickrdemo.model.Photo_;
 
 class FlickrItemRecyclerViewAdapter
         extends RecyclerView.Adapter<FlickrViewHolder> {
 
-    private final List<DummyContent.DummyItem> mItems;
+    private final List<Photo_> mItems;
 
-    FlickrItemRecyclerViewAdapter(List<DummyContent.DummyItem> items) {
+    FlickrItemRecyclerViewAdapter(List<Photo_> items) {
         mItems = items;
     }
 
@@ -27,8 +27,8 @@ class FlickrItemRecyclerViewAdapter
 
     @Override
     public void onBindViewHolder(final FlickrViewHolder holder, int position) {
-        holder.itemId.setText(mItems.get(position).id);
-        holder.itemContent.setText(mItems.get(position).content);
+        holder.itemId.setText(mItems.get(position).getId());
+        holder.itemContent.setText(mItems.get(position).getTitle());
     }
 
     @Override
