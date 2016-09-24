@@ -57,7 +57,6 @@ public class FlickrItemListActivity extends AppCompatActivity {
         mRecyclerView.getAdapter().notifyDataSetChanged();
     }
 
-
     /**
      * The onclick is set in flickritem_list_content.xml
      *

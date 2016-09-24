@@ -51,9 +51,11 @@ public class FlickrItemDetailFragment extends Fragment {
 
     private void itemDetailsLoaded() {
         Activity activity = this.getActivity();
-        CollapsingToolbarLayout appBarLayout = (CollapsingToolbarLayout) activity.findViewById(R.id.toolbar_layout);
-        if (appBarLayout != null) {
-            appBarLayout.setTitle(mItem.getId());
+        if (activity != null) {
+            CollapsingToolbarLayout appBarLayout = (CollapsingToolbarLayout) activity.findViewById(R.id.toolbar_layout);
+            if (appBarLayout != null) {
+                appBarLayout.setTitle(mItem.getId());
+            }
         }
     }
 
