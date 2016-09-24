@@ -26,7 +26,9 @@ import rx.schedulers.Schedulers;
 public class FlickrItemDetailFragment extends Fragment {
 
     public static final String ARG_ITEM_ID = "item_id";
+    public static final String ARG_ITEM_MEDIUM_URL = "item_medium_url";
     private TextView mContent;
+    private String mMediumUrl;
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -40,9 +42,15 @@ public class FlickrItemDetailFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        if (getArguments().containsKey(ARG_ITEM_ID)) {
-            loadPhotoDetails(getArguments().getString(ARG_ITEM_ID));
+        if (getArguments().containsKey(ARG_ITEM_ID) && getArguments().containsKey(ARG_ITEM_MEDIUM_URL)) {
+            String itemId = getArguments().getString(ARG_ITEM_ID);
+            mMediumUrl = getArguments().getString(ARG_ITEM_MEDIUM_URL);
+            loadPhotoDetails(itemId);
         }
+    }
+
+    private void loadMediumUrl() {
+        mContent.setText(mMediumUrl);
     }
 
     private void loadPhotoDetails(String photoId) {
@@ -66,8 +74,6 @@ public class FlickrItemDetailFragment extends Fragment {
             if (appBarLayout != null) {
                 appBarLayout.setTitle(photo.getPhoto().getTitle().get_content());
             }
-
-            mContent.setText(photo.getPhoto().getUrls().getUrl().get(0).get_content());
         }
     }
 
@@ -77,6 +83,7 @@ public class FlickrItemDetailFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.flickritem_detail, container, false);
 
         mContent = (TextView) rootView.findViewById(R.id.flickritem_detail);
+        loadMediumUrl();
 
         return rootView;
     }

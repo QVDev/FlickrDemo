@@ -32,6 +32,7 @@ public class FlickrItemListActivity extends AppCompatActivity {
     private final FlickrApiAdapter mFlickrApiAdapter = new FlickrApiAdapter();
 
     private RecyclerView mRecyclerView;
+    private int mCurrentPage = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,7 +58,7 @@ public class FlickrItemListActivity extends AppCompatActivity {
     }
 
     private void loadFlickrItems() {
-        final Observable<SearchResult> search = mFlickrApiAdapter.SearchImages("Skyline", 1);
+        final Observable<SearchResult> search = mFlickrApiAdapter.SearchImages("Skyline", mCurrentPage);
 
         search.subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -92,6 +93,8 @@ public class FlickrItemListActivity extends AppCompatActivity {
     private void showDetailsInPane(Photo_ item) {
         Bundle arguments = new Bundle();
         arguments.putString(FlickrItemDetailFragment.ARG_ITEM_ID, item.getId());
+        arguments.putString(FlickrItemDetailFragment.ARG_ITEM_MEDIUM_URL, item.getUrl_m());
+
         FlickrItemDetailFragment fragment = new FlickrItemDetailFragment();
         fragment.setArguments(arguments);
         getSupportFragmentManager().beginTransaction()
@@ -103,6 +106,7 @@ public class FlickrItemListActivity extends AppCompatActivity {
     private void showDetailsInActivity(Photo_ item) {
         Intent intent = new Intent(this, FlickrItemDetailActivity.class);
         intent.putExtra(FlickrItemDetailFragment.ARG_ITEM_ID, item.getId());
+        intent.putExtra(FlickrItemDetailFragment.ARG_ITEM_MEDIUM_URL, item.getUrl_m());
 
         startActivity(intent);
     }

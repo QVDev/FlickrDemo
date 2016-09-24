@@ -31,8 +31,13 @@ public class FlickrItemDetailActivity extends AppCompatActivity {
         // Restore from rotation
         if (savedInstanceState == null) {
             Bundle arguments = new Bundle();
+
             arguments.putString(FlickrItemDetailFragment.ARG_ITEM_ID,
                     getIntent().getStringExtra(FlickrItemDetailFragment.ARG_ITEM_ID));
+
+            arguments.putString(FlickrItemDetailFragment.ARG_ITEM_MEDIUM_URL,
+                    getIntent().getStringExtra(FlickrItemDetailFragment.ARG_ITEM_MEDIUM_URL));
+
             FlickrItemDetailFragment fragment = new FlickrItemDetailFragment();
             fragment.setArguments(arguments);
             getSupportFragmentManager().beginTransaction()
