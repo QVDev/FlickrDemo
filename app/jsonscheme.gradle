@@ -2,7 +2,6 @@ apply plugin: 'jsonschema2pojo'
 
 dependencies {
     compile 'org.glassfish:javax.annotation:10.0-b28'
-    compile 'com.google.code.gson:gson:2.5'
     compile 'commons-lang:commons-lang:2.6'
     compile 'javax.validation:validation-api:1.1.0.CR2'
 }

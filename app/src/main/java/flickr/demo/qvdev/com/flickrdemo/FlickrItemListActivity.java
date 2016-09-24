@@ -11,6 +11,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import flickr.demo.qvdev.com.flickrdemo.model.Photo_;
+import flickr.demo.qvdev.com.flickrdemo.model.SearchResult;
+import flickr.demo.qvdev.com.flickrdemo.network.FlickrApiAdapter;
+import rx.Observable;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Action1;
+import rx.schedulers.Schedulers;
 
 /**
  * An activity representing a list of FlickrItems. This activity
@@ -23,7 +29,10 @@ import flickr.demo.qvdev.com.flickrdemo.model.Photo_;
 public class FlickrItemListActivity extends AppCompatActivity {
 
     private final List<Photo_> mFlickrItems = new ArrayList<>();
+    private final FlickrApiAdapter mFlickrApiAdapter = new FlickrApiAdapter();
+
     private RecyclerView mRecyclerView;
+    private int mCurrentPage = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,7 +41,8 @@ public class FlickrItemListActivity extends AppCompatActivity {
 
         setupToolbar();
         setupRecyclerView();
-        loadMockItems();
+
+        loadFlickrItems();
     }
 
     private void setupToolbar() {
@@ -47,14 +57,18 @@ public class FlickrItemListActivity extends AppCompatActivity {
         mRecyclerView.setAdapter(new FlickrItemRecyclerViewAdapter(mFlickrItems));
     }
 
-    private void loadMockItems() {
-        for (int i = 0; i < 100; i++) {
-            Photo_ photo = new Photo_();
-            photo.setId("" + i);
-            photo.setTitle("Title");
-            mFlickrItems.add(photo);
-        }
-        mRecyclerView.getAdapter().notifyDataSetChanged();
+    private void loadFlickrItems() {
+        final Observable<SearchResult> search = mFlickrApiAdapter.SearchImages("Skyline", mCurrentPage);
+
+        search.subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Action1<SearchResult>() {
+                    @Override
+                    public void call(final SearchResult searchResult) {
+                        mFlickrItems.addAll(searchResult.getPhotos().getPhoto());
+                        mRecyclerView.getAdapter().notifyDataSetChanged();
+                    }
+                });
     }
 
     /**
@@ -79,6 +93,8 @@ public class FlickrItemListActivity extends AppCompatActivity {
     private void showDetailsInPane(Photo_ item) {
         Bundle arguments = new Bundle();
         arguments.putString(FlickrItemDetailFragment.ARG_ITEM_ID, item.getId());
+        arguments.putString(FlickrItemDetailFragment.ARG_ITEM_MEDIUM_URL, item.getUrl_m());
+
         FlickrItemDetailFragment fragment = new FlickrItemDetailFragment();
         fragment.setArguments(arguments);
         getSupportFragmentManager().beginTransaction()
@@ -90,6 +106,7 @@ public class FlickrItemListActivity extends AppCompatActivity {
     private void showDetailsInActivity(Photo_ item) {
         Intent intent = new Intent(this, FlickrItemDetailActivity.class);
         intent.putExtra(FlickrItemDetailFragment.ARG_ITEM_ID, item.getId());
+        intent.putExtra(FlickrItemDetailFragment.ARG_ITEM_MEDIUM_URL, item.getUrl_m());
 
         startActivity(intent);
     }
