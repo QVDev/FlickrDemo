@@ -10,7 +10,7 @@ import rx.Observable;
 
 public class FlickrApiAdapter {
 
-    private FlickrService mFlickerService;
+    private final FlickrService mFlickerService;
 
     public FlickrApiAdapter() {
         Retrofit retrofit = new Retrofit.Builder()
