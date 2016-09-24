@@ -67,8 +67,10 @@ public class FlickrItemDetailFragment extends Fragment {
                 .subscribe(new Action1<PhotoDetail>() {
                     @Override
                     public void call(@NonNull final PhotoDetail photo) {
-                        itemDetailsLoaded(photo);
-                        loadPhotoDetails(photo);
+                        if (isVisible()) {
+                            itemDetailsLoaded(photo);
+                            loadPhotoDetails(photo);
+                        }
                     }
                 });
     }
