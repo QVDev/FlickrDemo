@@ -16,8 +16,9 @@ machine:
 
 dependencies:
     pre:
-        - echo y | android update sdk --no-ui --all --filter tools,platform-tools,extra-google-m2repository,extra-google-google_play_services,extra-android-support,android-24
-        - echo y | android update sdk --no-ui --all --filter build-tools-24.0.2
+        - ( sleep 5 && while [ 1 ]; do sleep 1; echo y; done ) | android update sdk --no-ui --all --filter "tools,platform-tools,android-24,extra-google-m2repository,extra-android-m2repository,extra-android-support"
+        - echo y | android update sdk --no-ui --all --filter "build-tools-24.0.2"
+
     cache_directories:
         - /usr/local/android-sdk-linux/tools
         - /usr/local/android-sdk-linux/build-tools/24.0.2
