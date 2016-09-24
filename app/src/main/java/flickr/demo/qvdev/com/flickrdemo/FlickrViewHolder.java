@@ -6,17 +6,17 @@ import android.widget.TextView;
 
 class FlickrViewHolder extends RecyclerView.ViewHolder {
 
-    final TextView mIdView;
-    final TextView mContentView;
+    TextView itemId;
+    TextView itemContent;
 
     FlickrViewHolder(View view) {
         super(view);
-        mIdView = (TextView) view.findViewById(R.id.id);
-        mContentView = (TextView) view.findViewById(R.id.content);
+        itemId = (TextView) view.findViewById(R.id.id);
+        itemContent = (TextView) view.findViewById(R.id.content);
     }
 
     @Override
     public String toString() {
-        return super.toString() + " '" + mContentView.getText() + "'";
+        return itemId.getText().toString() + ": " + itemContent.getText().toString();
     }
 }

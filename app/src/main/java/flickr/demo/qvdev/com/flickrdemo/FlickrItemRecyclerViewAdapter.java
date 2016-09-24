@@ -27,8 +27,8 @@ class FlickrItemRecyclerViewAdapter
 
     @Override
     public void onBindViewHolder(final FlickrViewHolder holder, int position) {
-        holder.mIdView.setText(mItems.get(position).id);
-        holder.mContentView.setText(mItems.get(position).content);
+        holder.itemId.setText(mItems.get(position).id);
+        holder.itemContent.setText(mItems.get(position).content);
     }
 
     @Override
