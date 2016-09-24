@@ -21,7 +21,7 @@ import flickr.demo.qvdev.com.flickrdemo.dummy.DummyContent;
  */
 public class FlickrItemListActivity extends AppCompatActivity {
 
-    private List<DummyContent.DummyItem> mFlickrItems = DummyContent.ITEMS;
+    private final List<DummyContent.DummyItem> mFlickrItems = DummyContent.ITEMS;
     private RecyclerView mRecyclerView;
 
     @Override
