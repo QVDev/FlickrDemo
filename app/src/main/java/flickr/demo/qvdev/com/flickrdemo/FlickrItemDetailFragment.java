@@ -1,6 +1,7 @@
 package flickr.demo.qvdev.com.flickrdemo;
 
 import android.app.Activity;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.CollapsingToolbarLayout;
@@ -9,6 +10,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
+import com.facebook.drawee.view.SimpleDraweeView;
 
 import flickr.demo.qvdev.com.flickrdemo.model.PhotoDetail;
 import flickr.demo.qvdev.com.flickrdemo.network.FlickrApiAdapter;
@@ -27,7 +30,8 @@ public class FlickrItemDetailFragment extends Fragment {
 
     public static final String ARG_ITEM_ID = "item_id";
     public static final String ARG_ITEM_MEDIUM_URL = "item_medium_url";
-    private TextView mContent;
+    private SimpleDraweeView mImageView;
+    private TextView mPhotoDetails;
     private String mMediumUrl;
 
     /**
@@ -49,8 +53,9 @@ public class FlickrItemDetailFragment extends Fragment {
         }
     }
 
-    private void loadMediumUrl() {
-        mContent.setText(mMediumUrl);
+    private void loadImageUrl() {
+        Uri uri = Uri.parse(mMediumUrl);
+        mImageView.setImageURI(uri);
     }
 
     private void loadPhotoDetails(String photoId) {
@@ -62,9 +67,19 @@ public class FlickrItemDetailFragment extends Fragment {
                 .subscribe(new Action1<PhotoDetail>() {
                     @Override
                     public void call(@NonNull final PhotoDetail photo) {
-                        itemDetailsLoaded(photo);
+                        if (isVisible()) {
+                            itemDetailsLoaded(photo);
+                            loadPhotoDetails(photo);
+                        }
                     }
                 });
+    }
+
+    private void loadPhotoDetails(PhotoDetail photo) {
+        String date = photo.getPhoto().getDateuploaded();
+        String description = photo.getPhoto().getDescription().get_content();
+
+        mPhotoDetails.setText(getString(R.string.photo_views, date, description));
     }
 
     private void itemDetailsLoaded(final PhotoDetail photo) {
@@ -82,8 +97,9 @@ public class FlickrItemDetailFragment extends Fragment {
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.flickritem_detail, container, false);
 
-        mContent = (TextView) rootView.findViewById(R.id.flickritem_detail);
-        loadMediumUrl();
+        mImageView = (SimpleDraweeView) rootView.findViewById(R.id.medium_image);
+        loadImageUrl();
+        mPhotoDetails = (TextView) rootView.findViewById(R.id.photo_details);
 
         return rootView;
     }

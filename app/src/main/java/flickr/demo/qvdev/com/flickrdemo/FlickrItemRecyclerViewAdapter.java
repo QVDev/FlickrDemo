@@ -1,9 +1,12 @@
 package flickr.demo.qvdev.com.flickrdemo;
 
+import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import com.facebook.drawee.view.SimpleDraweeView;
 
 import java.util.List;
 
@@ -28,7 +31,13 @@ class FlickrItemRecyclerViewAdapter
     @Override
     public void onBindViewHolder(final FlickrViewHolder holder, int position) {
         holder.itemId.setText(mItems.get(position).getId());
-        holder.itemContent.setText(mItems.get(position).getUrl_t());
+        holder.itemContent.setText(mItems.get(position).getTitle());
+        loadThumbnail(holder.thumbnail, mItems.get(position).getUrl_t());
+    }
+
+    private void loadThumbnail(SimpleDraweeView imageView, String url) {
+        Uri uri = Uri.parse(url);
+        imageView.setImageURI(uri);
     }
 
     @Override

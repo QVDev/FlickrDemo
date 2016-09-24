@@ -6,7 +6,7 @@ import retrofit2.http.GET;
 import retrofit2.http.Query;
 import rx.Observable;
 
-public interface FlickrService {
+interface FlickrService {
 
     @GET("rest/?method=flickr.photos.search&api_key=be00e7f9fb70df90a8037ed1e3ea2e66&per_page=5&format=json&nojsoncallback=1&extras=url_m,url_t,url_o")
     Observable<SearchResult> searchPhotos(@Query("text") String searchString, @Query("page") int currentPage);

@@ -1,24 +1,46 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:fresco="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="horizontal"
-    tools:context=".FlickrItemListActivity"
+    android:background="?android:attr/selectableItemBackground"
     android:onClick="flickrItemClicked"
-    android:background="?android:attr/selectableItemBackground">
+    android:orientation="vertical"
+    tools:context=".FlickrItemListActivity">
+
+    <com.facebook.drawee.view.SimpleDraweeView
+        android:id="@+id/thumbnail"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_centerVertical="true"
+        android:scaleType="fitXY"
+        fresco:placeholderImage="@android:drawable/gallery_thumb"
+        fresco:viewAspectRatio="1.33" />
 
     <TextView
         android:id="@+id/id"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/text_margin"
+        android:layout_marginEnd="@dimen/text_margin"
+        android:layout_marginLeft="@dimen/text_margin"
+        android:layout_marginRight="@dimen/text_margin"
+        android:layout_marginStart="@dimen/text_margin"
+        android:layout_toEndOf="@id/thumbnail"
+        android:layout_toRightOf="@id/thumbnail"
         android:textAppearance="?attr/textAppearanceListItem" />
 
     <TextView
         android:id="@+id/content"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/text_margin"
+        android:layout_below="@id/id"
+        android:layout_marginBottom="@dimen/text_margin"
+        android:layout_marginEnd="@dimen/text_margin"
+        android:layout_marginLeft="@dimen/text_margin"
+        android:layout_marginRight="@dimen/text_margin"
+        android:layout_marginStart="@dimen/text_margin"
+        android:layout_toEndOf="@id/thumbnail"
+        android:layout_toRightOf="@id/thumbnail"
         android:textAppearance="?attr/textAppearanceListItem" />
-</LinearLayout>
+</RelativeLayout>
