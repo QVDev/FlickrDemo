@@ -18,7 +18,7 @@ class FlickerItemAdapterTest extends Specification {
         when: "Calling getItemCount"
         def int adapterCount = adapter.getItemCount()
 
-        then: "The getItemsCount should return the dummy content exact size"
+        then: "The getItemsCount should return the dummy mContent exact size"
         adapterCount == DummyContent.ITEMS.size()
     }
 }

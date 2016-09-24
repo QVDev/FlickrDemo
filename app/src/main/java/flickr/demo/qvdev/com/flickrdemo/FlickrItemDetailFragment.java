@@ -9,8 +9,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import flickr.demo.qvdev.com.flickrdemo.model.Photo;
-import flickr.demo.qvdev.com.flickrdemo.model.Title;
+import flickr.demo.qvdev.com.flickrdemo.model.PhotoDetail;
+import flickr.demo.qvdev.com.flickrdemo.network.FlickrApiAdapter;
+import rx.Observable;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Action1;
+import rx.schedulers.Schedulers;
 
 /**
  * A fragment representing a single FlickrItem detail screen.
@@ -21,7 +25,7 @@ import flickr.demo.qvdev.com.flickrdemo.model.Title;
 public class FlickrItemDetailFragment extends Fragment {
 
     public static final String ARG_ITEM_ID = "item_id";
-    private Photo mItem;
+    private TextView mContent;
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -36,26 +40,33 @@ public class FlickrItemDetailFragment extends Fragment {
         super.onCreate(savedInstanceState);
 
         if (getArguments().containsKey(ARG_ITEM_ID)) {
-            loadMockedItemDetails(getArguments().getString(ARG_ITEM_ID));
+            loadPhotoDetails(getArguments().getString(ARG_ITEM_ID));
         }
     }
 
-    private void loadMockedItemDetails(String photoId) {
-        mItem = new Photo();
-        mItem.setId(photoId);
-        Title title = new Title();
-        title.set_content(photoId);
-        mItem.setTitle(title);
-        itemDetailsLoaded();
+    private void loadPhotoDetails(String photoId) {
+        FlickrApiAdapter flickrApiAdapter = new FlickrApiAdapter();
+        final Observable<PhotoDetail> photo = flickrApiAdapter.getPhotoDetails(photoId);
+
+        photo.subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Action1<PhotoDetail>() {
+                    @Override
+                    public void call(PhotoDetail photo) {
+                        itemDetailsLoaded(photo);
+                    }
+                });
     }
 
-    private void itemDetailsLoaded() {
+    private void itemDetailsLoaded(final PhotoDetail photo) {
         Activity activity = this.getActivity();
         if (activity != null) {
             CollapsingToolbarLayout appBarLayout = (CollapsingToolbarLayout) activity.findViewById(R.id.toolbar_layout);
             if (appBarLayout != null) {
-                appBarLayout.setTitle(mItem.getId());
+                appBarLayout.setTitle(photo.getPhoto().getTitle().get_content());
             }
+
+            mContent.setText(photo.getPhoto().getUrls().getUrl().get(0).get_content());
         }
     }
 
@@ -64,10 +75,7 @@ public class FlickrItemDetailFragment extends Fragment {
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.flickritem_detail, container, false);
 
-        // Show the dummy content as text in a TextView.
-        if (mItem != null) {
-            ((TextView) rootView.findViewById(R.id.flickritem_detail)).setText(mItem.getTitle().get_content());
-        }
+        mContent = (TextView) rootView.findViewById(R.id.flickritem_detail);
 
         return rootView;
     }

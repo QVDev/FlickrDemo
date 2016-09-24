@@ -11,6 +11,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import flickr.demo.qvdev.com.flickrdemo.model.Photo_;
+import flickr.demo.qvdev.com.flickrdemo.model.SearchResult;
+import flickr.demo.qvdev.com.flickrdemo.network.FlickrApiAdapter;
+import rx.Observable;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Action1;
+import rx.schedulers.Schedulers;
 
 /**
  * An activity representing a list of FlickrItems. This activity
@@ -32,7 +38,8 @@ public class FlickrItemListActivity extends AppCompatActivity {
 
         setupToolbar();
         setupRecyclerView();
-        loadMockItems();
+
+        loadFlickrItems();
     }
 
     private void setupToolbar() {
@@ -47,14 +54,19 @@ public class FlickrItemListActivity extends AppCompatActivity {
         mRecyclerView.setAdapter(new FlickrItemRecyclerViewAdapter(mFlickrItems));
     }
 
-    private void loadMockItems() {
-        for (int i = 0; i < 100; i++) {
-            Photo_ photo = new Photo_();
-            photo.setId("" + i);
-            photo.setTitle("Title");
-            mFlickrItems.add(photo);
-        }
-        mRecyclerView.getAdapter().notifyDataSetChanged();
+    private void loadFlickrItems() {
+        FlickrApiAdapter flickrApiAdapter = new FlickrApiAdapter();
+        Observable<SearchResult> search = flickrApiAdapter.SearchImages("Skyline", 1);
+
+        search.subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Action1<SearchResult>() {
+                    @Override
+                    public void call(SearchResult searchResult) {
+                        mFlickrItems.addAll(searchResult.getPhotos().getPhoto());
+                        mRecyclerView.getAdapter().notifyDataSetChanged();
+                    }
+                });
     }
 
     /**
