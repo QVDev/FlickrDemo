@@ -6,3 +6,7 @@ Demo application for Flickr API
 
 ### Testing
 For unit testing the spock framework is being used see http://spockframework.org/spock/docs/1.1-rc-2/index.html
+
+### JSONSCHEME2POJO
+For generating the models that will be parsed JSONSCHEME2POJO is being used see https://github.com/joelittlejohn/jsonschema2pojo
+The generated models will generated in the build folder and thus not clutter the source folder

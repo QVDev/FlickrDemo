@@ -7,9 +7,10 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 
+import java.util.ArrayList;
 import java.util.List;
 
-import flickr.demo.qvdev.com.flickrdemo.dummy.DummyContent;
+import flickr.demo.qvdev.com.flickrdemo.model.Photo_;
 
 /**
  * An activity representing a list of FlickrItems. This activity
@@ -21,7 +22,7 @@ import flickr.demo.qvdev.com.flickrdemo.dummy.DummyContent;
  */
 public class FlickrItemListActivity extends AppCompatActivity {
 
-    private final List<DummyContent.DummyItem> mFlickrItems = DummyContent.ITEMS;
+    private final List<Photo_> mFlickrItems = new ArrayList<>();
     private RecyclerView mRecyclerView;
 
     @Override
@@ -31,6 +32,7 @@ public class FlickrItemListActivity extends AppCompatActivity {
 
         setupToolbar();
         setupRecyclerView();
+        loadMockItems();
     }
 
     private void setupToolbar() {
@@ -45,6 +47,15 @@ public class FlickrItemListActivity extends AppCompatActivity {
         mRecyclerView.setAdapter(new FlickrItemRecyclerViewAdapter(mFlickrItems));
     }
 
+    private void loadMockItems() {
+        for (int i = 0; i < 100; i++) {
+            Photo_ photo = new Photo_();
+            photo.setId("" + i);
+            photo.setTitle("Title");
+            mFlickrItems.add(photo);
+        }
+        mRecyclerView.getAdapter().notifyDataSetChanged();
+    }
 
     /**
      * The onclick is set in flickritem_list_content.xml
@@ -56,7 +67,7 @@ public class FlickrItemListActivity extends AppCompatActivity {
         boolean isTwoPane = findViewById(R.id.flickritem_detail_container) != null;
 
         // Get the matching FlickrItem from the recyclerView
-        DummyContent.DummyItem item = mFlickrItems.get(mRecyclerView.getChildAdapterPosition(view));
+        Photo_ item = mFlickrItems.get(mRecyclerView.getChildAdapterPosition(view));
         if (isTwoPane) {
             showDetailsInPane(item);
         } else {
@@ -65,9 +76,9 @@ public class FlickrItemListActivity extends AppCompatActivity {
     }
 
     // Larger screens w300 will replace the fragment for detail view
-    private void showDetailsInPane(DummyContent.DummyItem item) {
+    private void showDetailsInPane(Photo_ item) {
         Bundle arguments = new Bundle();
-        arguments.putString(FlickrItemDetailFragment.ARG_ITEM_ID, item.id);
+        arguments.putString(FlickrItemDetailFragment.ARG_ITEM_ID, item.getId());
         FlickrItemDetailFragment fragment = new FlickrItemDetailFragment();
         fragment.setArguments(arguments);
         getSupportFragmentManager().beginTransaction()
@@ -76,9 +87,9 @@ public class FlickrItemListActivity extends AppCompatActivity {
     }
 
     // Smaller screens < w300 will open a new activity for detail view
-    private void showDetailsInActivity(DummyContent.DummyItem item) {
+    private void showDetailsInActivity(Photo_ item) {
         Intent intent = new Intent(this, FlickrItemDetailActivity.class);
-        intent.putExtra(FlickrItemDetailFragment.ARG_ITEM_ID, item.id);
+        intent.putExtra(FlickrItemDetailFragment.ARG_ITEM_ID, item.getId());
 
         startActivity(intent);
     }

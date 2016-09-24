@@ -1,0 +1,81 @@
+{
+  "photo": {
+    "id": "29267374134",
+    "secret": "861000440d",
+    "server": "8565",
+    "farm": 9,
+    "dateuploaded": "1474722881",
+    "isfavorite": 0,
+    "license": 0,
+    "safety_level": 0,
+    "rotation": 0,
+    "originalsecret": "01ba7f6ec9",
+    "originalformat": "jpg",
+    "owner": {
+      "nsid": "108021376@N07",
+      "username": "bkkay1",
+      "realname": "Brian Kay",
+      "location": "",
+      "iconserver": "574",
+      "iconfarm": 1,
+      "path_alias": ""
+    },
+    "title": {
+      "_content": "Downtown zinia"
+    },
+    "description": {
+      "_content": "Macrophotographed captured a t condo building's terrace. "
+    },
+    "visibility": {
+      "ispublic": 1,
+      "isfriend": 0,
+      "isfamily": 0
+    },
+    "dates": {
+      "posted": "1474722881",
+      "taken": "2016-09-01 18:39:33",
+      "takengranularity": 0,
+      "takenunknown": 0,
+      "lastupdate": "1474723037"
+    },
+    "views": 17,
+    "editability": {
+      "cancomment": 0,
+      "canaddmeta": 0
+    },
+    "publiceditability": {
+      "cancomment": 1,
+      "canaddmeta": 0
+    },
+    "usage": {
+      "candownload": 1,
+      "canblog": 0,
+      "canprint": 0,
+      "canshare": 1
+    },
+    "comments": {
+      "_content": 0
+    },
+    "notes": {
+      "note": [
+      ]
+    },
+    "people": {
+      "haspeople": 0
+    },
+    "tags": {
+      "tag": [
+      ]
+    },
+    "urls": {
+      "url": [
+        {
+          "type": "photopage",
+          "_content": "https:\/\/www.flickr.com\/photos\/108021376@N07\/29267374134\/"
+        }
+      ]
+    },
+    "media": "photo"
+  },
+  "stat": "ok"
+}
