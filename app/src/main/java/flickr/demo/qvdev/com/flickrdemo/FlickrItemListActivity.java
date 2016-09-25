@@ -81,7 +81,6 @@ public class FlickrItemListActivity extends AppCompatActivity implements OnLoadM
                         @Override
                         public void call(final SearchResult searchResult) {
                             updateItemsInList(searchResult);
-                            setNextPage();
                         }
                     });
         }
@@ -98,6 +97,7 @@ public class FlickrItemListActivity extends AppCompatActivity implements OnLoadM
 
     @Override
     public void onLoadMore() {
+        setNextPage();
         loadFlickrItems();
     }
 
@@ -159,7 +159,7 @@ public class FlickrItemListActivity extends AppCompatActivity implements OnLoadM
 
     private void resetStates() {
         mFlickrItems.clear();
-        mCurrentPage = 0;
+        mCurrentPage = 1;
 
         if (mEndlessScrollListener != null) {
             mEndlessScrollListener.reset();

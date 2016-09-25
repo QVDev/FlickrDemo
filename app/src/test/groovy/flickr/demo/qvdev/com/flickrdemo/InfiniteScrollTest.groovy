@@ -63,7 +63,7 @@ class InfiniteScrollTest extends Specification {
 
         then: "Properties should be default"
         listActivity.mFlickrItems.size() == 0
-        listActivity.mCurrentPage == 0
+        listActivity.mCurrentPage == 1
         scrollListener.mPreviousTotal == 0
         !scrollListener.mLoading
     }
