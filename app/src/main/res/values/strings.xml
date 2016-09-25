@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">FlickrDemo</string>
+    <string name="title_flickritem_detail">FlickrItem Detail</string>
+    <string name="photo_views">Date: %1$s\nDescription %2$s</string>
+    <string name="search_hint">Enter your search term here..</string>
+    <string name="error_message">Error occurred, please check internet connection</string>
+    <string name="detailed_image">The detailed image</string>
+    <string name="thumbnail_image">The thumbnail image</string>
+</resources>
