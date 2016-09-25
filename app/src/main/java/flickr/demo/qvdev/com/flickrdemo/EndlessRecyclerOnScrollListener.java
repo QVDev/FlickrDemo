@@ -52,4 +52,8 @@ class EndlessRecyclerOnScrollListener extends RecyclerView.OnScrollListener {
         }
     }
 
+    void reset() {
+        mPreviousTotal = 0;
+        mLoading = false;
+    }
 }
