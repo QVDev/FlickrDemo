@@ -40,11 +40,15 @@ class EndlessRecyclerOnScrollListener extends RecyclerView.OnScrollListener {
                 <= (firstVisibleItem + VISIBLE_THRESHOLD)) {
             // End has been reached
 
-            if (mListener != null) {
-                mListener.onLoadMore();
-            }
+            notifyOnLoadMoreListener();
 
             mLoading = true;
+        }
+    }
+
+    private void notifyOnLoadMoreListener() {
+        if (mListener != null) {
+            mListener.onLoadMore();
         }
     }
 
