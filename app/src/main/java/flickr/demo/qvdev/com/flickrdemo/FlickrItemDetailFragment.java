@@ -37,6 +37,7 @@ public class FlickrItemDetailFragment extends Fragment {
     private SimpleDraweeView mImageView;
     private TextView mPhotoDetails;
     private String mMediumUrl;
+    private String mTitle;
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -62,7 +63,7 @@ public class FlickrItemDetailFragment extends Fragment {
     @Override
     public void onSaveInstanceState(Bundle outState) {
         outState.putString(PHOTO_DETAILS, mPhotoDetails.getText().toString());
-        outState.putString(PHOTO_TITLE, mPhotoDetails.getText().toString());
+        outState.putString(PHOTO_TITLE, mTitle);
         super.onSaveInstanceState(outState);
     }
 
@@ -109,6 +110,7 @@ public class FlickrItemDetailFragment extends Fragment {
         if (activity != null) {
             CollapsingToolbarLayout appBarLayout = (CollapsingToolbarLayout) activity.findViewById(R.id.toolbar_layout);
             if (appBarLayout != null) {
+                mTitle = title;
                 appBarLayout.setTitle(title);
             }
         }
