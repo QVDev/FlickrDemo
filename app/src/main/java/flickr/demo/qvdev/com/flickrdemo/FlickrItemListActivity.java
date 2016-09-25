@@ -89,7 +89,7 @@ public class FlickrItemListActivity extends AppCompatActivity implements OnLoadM
     }
 
     @Override
-    public void onLoadMore(int currentPage) {
+    public void onLoadMore() {
         loadFlickrItems();
     }
 

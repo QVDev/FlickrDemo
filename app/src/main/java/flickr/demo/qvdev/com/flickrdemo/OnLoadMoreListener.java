@@ -1,6 +1,6 @@
 package flickr.demo.qvdev.com.flickrdemo;
 
-public interface OnLoadMoreListener {
+interface OnLoadMoreListener {
 
-    void onLoadMore(int currentPage);
+    void onLoadMore();
 }
