@@ -160,8 +160,13 @@ public class FlickrItemListActivity extends AppCompatActivity implements OnLoadM
     private void resetStates() {
         mFlickrItems.clear();
         mCurrentPage = 0;
-        mEndlessScrollListener.reset();
-        mSearchView.clearFocus();
+
+        if (mEndlessScrollListener != null) {
+            mEndlessScrollListener.reset();
+        }
+        if (mSearchView != null) {
+            mSearchView.clearFocus();
+        }
     }
 
     @Override

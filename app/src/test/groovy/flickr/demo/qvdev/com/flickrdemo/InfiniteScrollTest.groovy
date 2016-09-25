@@ -47,4 +47,24 @@ class InfiniteScrollTest extends Specification {
         then: "The listener should not be called as it is null"
         0 * scrollListener.mListener.onLoadMore()
     }
+
+    @Unroll
+    def "Test reset functionality"() {
+
+        given: "EndlessRecyclerOnScrollListener and ListActivity"
+        def EndlessRecyclerOnScrollListener scrollListener = new EndlessRecyclerOnScrollListener(Mock(LinearLayoutManager.class), null)
+        def FlickrItemListActivity listActivity = new FlickrItemListActivity()
+        listActivity.mEndlessScrollListener = scrollListener
+        scrollListener.mPreviousTotal = 3;
+        scrollListener.mLoading = true;
+
+        when: "When calling reset states"
+        listActivity.resetStates()
+
+        then: "Properties should be default"
+        listActivity.mFlickrItems.size() == 0
+        listActivity.mCurrentPage == 0
+        scrollListener.mPreviousTotal == 0
+        !scrollListener.mLoading
+    }
 }
