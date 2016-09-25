@@ -110,7 +110,7 @@ public class FlickrItemListActivity extends AppCompatActivity implements OnLoadM
 
             search.subscribeOn(Schedulers.newThread())
                     .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(new Subscriber<SearchResult>() {
+                    .unsafeSubscribe(new Subscriber<SearchResult>() {
                         @Override
                         public void onCompleted() {
                             // ;

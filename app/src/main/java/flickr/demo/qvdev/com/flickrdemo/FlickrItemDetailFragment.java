@@ -87,7 +87,7 @@ public class FlickrItemDetailFragment extends Fragment {
 
         photo.subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<PhotoDetail>() {
+                .unsafeSubscribe(new Subscriber<PhotoDetail>() {
                     @Override
                     public void onCompleted() {
                         // ;
@@ -95,7 +95,9 @@ public class FlickrItemDetailFragment extends Fragment {
 
                     @Override
                     public void onError(Throwable e) {
-                        Toast.makeText(getContext(), R.string.error_message, Toast.LENGTH_LONG).show();
+                        if (isVisible()) {
+                            Toast.makeText(getContext(), R.string.error_message, Toast.LENGTH_LONG).show();
+                        }
                     }
 
                     @Override
