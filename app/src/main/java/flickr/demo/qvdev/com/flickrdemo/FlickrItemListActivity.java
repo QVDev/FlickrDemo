@@ -3,6 +3,7 @@ package flickr.demo.qvdev.com.flickrdemo;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
@@ -28,7 +29,7 @@ import rx.schedulers.Schedulers;
  * item details. On tablets, the activity presents the list of items and
  * item details side-by-side using two vertical panes.
  */
-public class FlickrItemListActivity extends AppCompatActivity {
+public class FlickrItemListActivity extends AppCompatActivity implements OnLoadMoreListener {
 
     private final List<Photo_> mFlickrItems = new ArrayList<>();
     private final FlickrApiAdapter mFlickrApiAdapter = new FlickrApiAdapter();
@@ -57,6 +58,11 @@ public class FlickrItemListActivity extends AppCompatActivity {
         mRecyclerView = (RecyclerView) findViewById(R.id.flickritem_list);
         assert mRecyclerView != null;
         mRecyclerView.setAdapter(new FlickrItemRecyclerViewAdapter(mFlickrItems));
+
+        // For infinite loading
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
+        mRecyclerView.setLayoutManager(linearLayoutManager);
+        mRecyclerView.addOnScrollListener(new EndlessRecyclerOnScrollListener(linearLayoutManager, this));
     }
 
     private void loadFlickrItems() {
@@ -67,10 +73,24 @@ public class FlickrItemListActivity extends AppCompatActivity {
                 .subscribe(new Action1<SearchResult>() {
                     @Override
                     public void call(final SearchResult searchResult) {
-                        mFlickrItems.addAll(searchResult.getPhotos().getPhoto());
-                        mRecyclerView.getAdapter().notifyDataSetChanged();
+                        updateItemsInList(searchResult);
+                        setNextPage();
                     }
                 });
+    }
+
+    private void updateItemsInList(SearchResult searchResult) {
+        mFlickrItems.addAll(searchResult.getPhotos().getPhoto());
+        mRecyclerView.getAdapter().notifyDataSetChanged();
+    }
+
+    private void setNextPage() {
+        mCurrentPage++;
+    }
+
+    @Override
+    public void onLoadMore() {
+        loadFlickrItems();
     }
 
     /**
