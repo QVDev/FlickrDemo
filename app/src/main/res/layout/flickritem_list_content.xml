@@ -10,6 +10,7 @@
     tools:context=".search.FlickrItemListActivity">
 
     <com.facebook.drawee.view.SimpleDraweeView
+        android:contentDescription="@string/thumbnail_image"
         android:id="@+id/thumbnail"
         android:layout_width="50dp"
         android:layout_height="50dp"
