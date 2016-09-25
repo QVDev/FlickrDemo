@@ -9,6 +9,7 @@ import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.View;
+import android.widget.Toast;
 
 import com.facebook.drawee.backends.pipeline.Fresco;
 import com.google.gson.Gson;
@@ -21,8 +22,8 @@ import flickr.demo.qvdev.com.flickrdemo.model.Photos;
 import flickr.demo.qvdev.com.flickrdemo.model.SearchResult;
 import flickr.demo.qvdev.com.flickrdemo.network.FlickrApiAdapter;
 import rx.Observable;
+import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
-import rx.functions.Action1;
 import rx.schedulers.Schedulers;
 
 /**
@@ -109,9 +110,19 @@ public class FlickrItemListActivity extends AppCompatActivity implements OnLoadM
 
             search.subscribeOn(Schedulers.newThread())
                     .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(new Action1<SearchResult>() {
+                    .unsafeSubscribe(new Subscriber<SearchResult>() {
                         @Override
-                        public void call(final SearchResult searchResult) {
+                        public void onCompleted() {
+                            // ;
+                        }
+
+                        @Override
+                        public void onError(Throwable e) {
+                            Toast.makeText(FlickrItemListActivity.this, R.string.error_message, Toast.LENGTH_LONG).show();
+                        }
+
+                        @Override
+                        public void onNext(SearchResult searchResult) {
                             updateItemsInList(searchResult.getPhotos().getPhoto());
                         }
                     });

@@ -3,7 +3,6 @@ package flickr.demo.qvdev.com.flickrdemo;
 import android.app.Activity;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v4.app.Fragment;
@@ -11,14 +10,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.facebook.drawee.view.SimpleDraweeView;
 
 import flickr.demo.qvdev.com.flickrdemo.model.PhotoDetail;
 import flickr.demo.qvdev.com.flickrdemo.network.FlickrApiAdapter;
 import rx.Observable;
+import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
-import rx.functions.Action1;
 import rx.schedulers.Schedulers;
 
 /**
@@ -87,12 +87,24 @@ public class FlickrItemDetailFragment extends Fragment {
 
         photo.subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Action1<PhotoDetail>() {
+                .unsafeSubscribe(new Subscriber<PhotoDetail>() {
                     @Override
-                    public void call(@NonNull final PhotoDetail photo) {
+                    public void onCompleted() {
+                        // ;
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
                         if (isVisible()) {
-                            itemDetailsLoaded(photo.getPhoto().getTitle().get_content());
-                            loadPhotoDetails(photo);
+                            Toast.makeText(getContext(), R.string.error_message, Toast.LENGTH_LONG).show();
+                        }
+                    }
+
+                    @Override
+                    public void onNext(PhotoDetail photoDetail) {
+                        if (isVisible()) {
+                            itemDetailsLoaded(photoDetail.getPhoto().getTitle().get_content());
+                            loadPhotoDetails(photoDetail);
                         }
                     }
                 });
