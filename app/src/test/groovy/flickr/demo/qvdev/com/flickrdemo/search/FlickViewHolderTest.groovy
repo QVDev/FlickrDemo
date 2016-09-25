@@ -1,8 +1,9 @@
-package flickr.demo.qvdev.com.flickrdemo
+package flickr.demo.qvdev.com.flickrdemo.search
 
 import android.content.Context
 import android.view.View
 import android.widget.TextView
+import flickr.demo.qvdev.com.flickrdemo.search.FlickrViewHolder
 import spock.lang.Specification
 import spock.lang.Unroll
 

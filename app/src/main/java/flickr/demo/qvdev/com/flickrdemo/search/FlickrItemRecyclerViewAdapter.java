@@ -1,4 +1,4 @@
-package flickr.demo.qvdev.com.flickrdemo;
+package flickr.demo.qvdev.com.flickrdemo.search;
 
 import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
@@ -10,6 +10,7 @@ import com.facebook.drawee.view.SimpleDraweeView;
 
 import java.util.List;
 
+import flickr.demo.qvdev.com.flickrdemo.R;
 import flickr.demo.qvdev.com.flickrdemo.model.Photo_;
 
 class FlickrItemRecyclerViewAdapter

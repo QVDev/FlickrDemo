@@ -6,11 +6,14 @@ import retrofit2.http.GET;
 import retrofit2.http.Query;
 import rx.Observable;
 
+import static flickr.demo.qvdev.com.flickrdemo.network.FlickrApiAdapter.FLICKR_PHOTO_DETAIL;
+import static flickr.demo.qvdev.com.flickrdemo.network.FlickrApiAdapter.FLICKR_SEARCH;
+
 interface FlickrService {
 
-    @GET("rest/?method=flickr.photos.search&api_key=be00e7f9fb70df90a8037ed1e3ea2e66&per_page=5&format=json&nojsoncallback=1&extras=url_m,url_t,url_o")
+    @GET(FLICKR_SEARCH)
     Observable<SearchResult> searchPhotos(@Query("text") String searchString, @Query("page") int currentPage);
 
-    @GET("rest/?method=flickr.photos.getInfo&api_key=be00e7f9fb70df90a8037ed1e3ea2e66&format=json&nojsoncallback=1&")
+    @GET(FLICKR_PHOTO_DETAIL)
     Observable<PhotoDetail> getPhotoDetail(@Query("photo_id") String photoId);
 }

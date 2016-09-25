@@ -1,4 +1,4 @@
-package flickr.demo.qvdev.com.flickrdemo;
+package flickr.demo.qvdev.com.flickrdemo.search;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -17,6 +17,9 @@ import com.google.gson.Gson;
 import java.util.ArrayList;
 import java.util.List;
 
+import flickr.demo.qvdev.com.flickrdemo.detail.FlickrItemDetailActivity;
+import flickr.demo.qvdev.com.flickrdemo.detail.FlickrItemDetailFragment;
+import flickr.demo.qvdev.com.flickrdemo.R;
 import flickr.demo.qvdev.com.flickrdemo.model.Photo_;
 import flickr.demo.qvdev.com.flickrdemo.model.Photos;
 import flickr.demo.qvdev.com.flickrdemo.model.SearchResult;

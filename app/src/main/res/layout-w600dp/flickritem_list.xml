@@ -9,7 +9,7 @@
     android:divider="?android:attr/dividerHorizontal"
     android:orientation="horizontal"
     android:showDividers="middle"
-    tools:context="flickr.demo.qvdev.com.flickrdemo.FlickrItemListActivity">
+    tools:context="flickr.demo.qvdev.com.flickrdemo.search.FlickrItemListActivity">
 
     <android.support.v7.widget.RecyclerView xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
@@ -20,7 +20,7 @@
         android:layout_marginLeft="@dimen/list_margin"
         android:layout_marginRight="@dimen/list_margin"
         app:layoutManager="LinearLayoutManager"
-        tools:context="flickr.demo.qvdev.com.flickrdemo.FlickrItemListActivity"
+        tools:context="flickr.demo.qvdev.com.flickrdemo.search.FlickrItemListActivity"
         tools:listitem="@layout/flickritem_list_content" />
 
     <!--Ignore InconsistentLayout as it will be replaced by the Fragment Manager-->
