@@ -2,7 +2,6 @@ package flickr.demo.qvdev.com.flickrdemo;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.PersistableBundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -40,7 +39,7 @@ public class FlickrItemListActivity extends AppCompatActivity implements OnLoadM
     private static final String SEARCH_TERM = "search_term";
     private static final String CURRENT_PAGE = "current_page";
 
-    private List<Photo_> mFlickrItems = new ArrayList<>();
+    private final List<Photo_> mFlickrItems = new ArrayList<>();
     private final FlickrApiAdapter mFlickrApiAdapter = new FlickrApiAdapter();
 
     private RecyclerView mRecyclerView;
@@ -84,26 +83,6 @@ public class FlickrItemListActivity extends AppCompatActivity implements OnLoadM
         outState.putString(SEARCH_TERM, mSearchTerm);
         outState.putInt(CURRENT_PAGE, mCurrentPage);
         super.onSaveInstanceState(outState);
-    }
-
-    @Override
-    public void onRestoreInstanceState(Bundle savedInstanceState, PersistableBundle persistentState) {
-        super.onRestoreInstanceState(savedInstanceState, persistentState);
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
     }
 
     private void setupToolbar() {
