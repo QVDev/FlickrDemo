@@ -11,11 +11,13 @@ import android.view.Menu;
 import android.view.View;
 
 import com.facebook.drawee.backends.pipeline.Fresco;
+import com.google.gson.Gson;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import flickr.demo.qvdev.com.flickrdemo.model.Photo_;
+import flickr.demo.qvdev.com.flickrdemo.model.Photos;
 import flickr.demo.qvdev.com.flickrdemo.model.SearchResult;
 import flickr.demo.qvdev.com.flickrdemo.network.FlickrApiAdapter;
 import rx.Observable;
@@ -32,6 +34,10 @@ import rx.schedulers.Schedulers;
  * item details side-by-side using two vertical panes.
  */
 public class FlickrItemListActivity extends AppCompatActivity implements OnLoadMoreListener, SearchView.OnQueryTextListener {
+
+    private static final String SEARCH_RESULT = "search_result";
+    private static final String SEARCH_TERM = "search_term";
+    private static final String CURRENT_PAGE = "current_page";
 
     private final List<Photo_> mFlickrItems = new ArrayList<>();
     private final FlickrApiAdapter mFlickrApiAdapter = new FlickrApiAdapter();
@@ -50,7 +56,33 @@ public class FlickrItemListActivity extends AppCompatActivity implements OnLoadM
         Fresco.initialize(this);
         setupToolbar();
         setupRecyclerView();
-        loadFlickrItems();
+        if (savedInstanceState == null) {
+            loadFlickrItems();
+        }
+    }
+
+    public void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+
+        mCurrentPage = savedInstanceState.getInt(CURRENT_PAGE);
+        mSearchTerm = savedInstanceState.getString(SEARCH_TERM);
+
+        Gson gson = new Gson();
+        Photos photos = gson.fromJson(savedInstanceState.getString(SEARCH_RESULT), Photos.class);
+        updateItemsInList(photos.getPhoto());
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        Gson gson = new Gson();
+        Photos photos = new Photos();
+        photos.setPhoto(mFlickrItems);
+        String savedResultState = gson.toJson(photos);
+
+        outState.putString(SEARCH_RESULT, savedResultState);
+        outState.putString(SEARCH_TERM, mSearchTerm);
+        outState.putInt(CURRENT_PAGE, mCurrentPage);
+        super.onSaveInstanceState(outState);
     }
 
     private void setupToolbar() {
@@ -80,14 +112,14 @@ public class FlickrItemListActivity extends AppCompatActivity implements OnLoadM
                     .subscribe(new Action1<SearchResult>() {
                         @Override
                         public void call(final SearchResult searchResult) {
-                            updateItemsInList(searchResult);
+                            updateItemsInList(searchResult.getPhotos().getPhoto());
                         }
                     });
         }
     }
 
-    private void updateItemsInList(SearchResult searchResult) {
-        mFlickrItems.addAll(searchResult.getPhotos().getPhoto());
+    private void updateItemsInList(List<Photo_> searchResult) {
+        mFlickrItems.addAll(searchResult);
         mRecyclerView.getAdapter().notifyDataSetChanged();
     }
 
