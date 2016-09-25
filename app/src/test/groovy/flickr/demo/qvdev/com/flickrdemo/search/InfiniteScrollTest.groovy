@@ -1,6 +1,9 @@
-package flickr.demo.qvdev.com.flickrdemo
+package flickr.demo.qvdev.com.flickrdemo.search
 
 import android.support.v7.widget.LinearLayoutManager
+import flickr.demo.qvdev.com.flickrdemo.search.EndlessRecyclerOnScrollListener
+import flickr.demo.qvdev.com.flickrdemo.search.FlickrItemListActivity
+import flickr.demo.qvdev.com.flickrdemo.search.OnLoadMoreListener
 import spock.lang.Specification
 import spock.lang.Unroll
 

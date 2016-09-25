@@ -1,10 +1,12 @@
-package flickr.demo.qvdev.com.flickrdemo;
+package flickr.demo.qvdev.com.flickrdemo.search;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.TextView;
 
 import com.facebook.drawee.view.SimpleDraweeView;
+
+import flickr.demo.qvdev.com.flickrdemo.R;
 
 class FlickrViewHolder extends RecyclerView.ViewHolder {
 

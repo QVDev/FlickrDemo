@@ -1,4 +1,4 @@
-package flickr.demo.qvdev.com.flickrdemo;
+package flickr.demo.qvdev.com.flickrdemo.detail;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -7,6 +7,9 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+
+import flickr.demo.qvdev.com.flickrdemo.R;
+import flickr.demo.qvdev.com.flickrdemo.search.FlickrItemListActivity;
 
 /**
  * An activity representing a single FlickrItem detail screen. This

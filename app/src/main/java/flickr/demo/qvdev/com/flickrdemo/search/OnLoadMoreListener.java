@@ -1,4 +1,4 @@
-package flickr.demo.qvdev.com.flickrdemo;
+package flickr.demo.qvdev.com.flickrdemo.search;
 
 interface OnLoadMoreListener {
 

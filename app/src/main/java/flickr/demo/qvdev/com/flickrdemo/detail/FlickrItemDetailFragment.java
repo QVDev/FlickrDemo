@@ -1,4 +1,4 @@
-package flickr.demo.qvdev.com.flickrdemo;
+package flickr.demo.qvdev.com.flickrdemo.detail;
 
 import android.app.Activity;
 import android.net.Uri;
@@ -14,8 +14,10 @@ import android.widget.Toast;
 
 import com.facebook.drawee.view.SimpleDraweeView;
 
+import flickr.demo.qvdev.com.flickrdemo.R;
 import flickr.demo.qvdev.com.flickrdemo.model.PhotoDetail;
 import flickr.demo.qvdev.com.flickrdemo.network.FlickrApiAdapter;
+import flickr.demo.qvdev.com.flickrdemo.search.FlickrItemListActivity;
 import rx.Observable;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;

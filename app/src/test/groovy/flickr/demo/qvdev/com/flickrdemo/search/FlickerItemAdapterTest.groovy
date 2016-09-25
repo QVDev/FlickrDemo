@@ -1,6 +1,7 @@
-package flickr.demo.qvdev.com.flickrdemo
+package flickr.demo.qvdev.com.flickrdemo.search
 
 import flickr.demo.qvdev.com.flickrdemo.dummy.DummyContent
+import flickr.demo.qvdev.com.flickrdemo.search.FlickrItemRecyclerViewAdapter
 import spock.lang.Specification
 import spock.lang.Unroll
 

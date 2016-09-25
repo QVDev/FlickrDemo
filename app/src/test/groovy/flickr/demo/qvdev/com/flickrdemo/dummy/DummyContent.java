@@ -1,27 +1,21 @@
 package flickr.demo.qvdev.com.flickrdemo.dummy;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Helper class for providing sample content for user interfaces created by
  * Android template wizards.
  * <p>
- * TODO: Replace all uses of this class before publishing your app.
+ * For testing purpose
  */
 public class DummyContent {
 
     /**
      * An array of sample (dummy) items.
      */
-    public static final List<DummyItem> ITEMS = new ArrayList<>();
-
-    /**
-     * A map of sample (dummy) items, by ID.
-     */
-    public static final Map<String, DummyItem> ITEM_MAP = new HashMap<>();
+    @SuppressWarnings("MismatchedQueryAndUpdateOfCollection") // Used during testing
+    private static final List<DummyItem> ITEMS = new ArrayList<>();
 
     private static final int COUNT = 25;
 
@@ -34,34 +28,23 @@ public class DummyContent {
 
     private static void addItem(DummyItem item) {
         ITEMS.add(item);
-        ITEM_MAP.put(item.id, item);
     }
 
     private static DummyItem createDummyItem(int position) {
-        return new DummyItem(String.valueOf(position), "Item " + position, makeDetails(position));
-    }
-
-    private static String makeDetails(int position) {
-        StringBuilder builder = new StringBuilder();
-        builder.append("Details about Item: ").append(position);
-        for (int i = 0; i < position; i++) {
-            builder.append("\nMore details information here.");
-        }
-        return builder.toString();
+        return new DummyItem(String.valueOf(position), "Item " + position);
     }
 
     /**
      * A dummy item representing a piece of content.
      */
-    public static class DummyItem {
-        public final String id;
-        public final String content;
-        public final String details;
+    private static class DummyItem {
+        @SuppressWarnings("unused") // Used for testing
+        final String id;
+        final String content;
 
-        public DummyItem(String id, String content, String details) {
+        DummyItem(String id, String content) {
             this.id = id;
             this.content = content;
-            this.details = details;
         }
 
         @Override
