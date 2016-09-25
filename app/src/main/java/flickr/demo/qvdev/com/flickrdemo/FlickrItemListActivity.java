@@ -5,7 +5,9 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
 import android.view.View;
 
 import com.facebook.drawee.backends.pipeline.Fresco;
@@ -29,13 +31,16 @@ import rx.schedulers.Schedulers;
  * item details. On tablets, the activity presents the list of items and
  * item details side-by-side using two vertical panes.
  */
-public class FlickrItemListActivity extends AppCompatActivity implements OnLoadMoreListener {
+public class FlickrItemListActivity extends AppCompatActivity implements OnLoadMoreListener, SearchView.OnQueryTextListener {
 
     private final List<Photo_> mFlickrItems = new ArrayList<>();
     private final FlickrApiAdapter mFlickrApiAdapter = new FlickrApiAdapter();
 
     private RecyclerView mRecyclerView;
     private int mCurrentPage = 1;
+    private String mSearchTerm;
+    private EndlessRecyclerOnScrollListener mEndlessScrollListener;
+    private SearchView mSearchView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,21 +67,24 @@ public class FlickrItemListActivity extends AppCompatActivity implements OnLoadM
         // For infinite loading
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(linearLayoutManager);
-        mRecyclerView.addOnScrollListener(new EndlessRecyclerOnScrollListener(linearLayoutManager, this));
+        mEndlessScrollListener = new EndlessRecyclerOnScrollListener(linearLayoutManager, this);
+        mRecyclerView.addOnScrollListener(mEndlessScrollListener);
     }
 
     private void loadFlickrItems() {
-        final Observable<SearchResult> search = mFlickrApiAdapter.SearchImages("Skyline", mCurrentPage);
+        if (mSearchTerm != null) {
+            final Observable<SearchResult> search = mFlickrApiAdapter.SearchImages(mSearchTerm, mCurrentPage);
 
-        search.subscribeOn(Schedulers.newThread())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Action1<SearchResult>() {
-                    @Override
-                    public void call(final SearchResult searchResult) {
-                        updateItemsInList(searchResult);
-                        setNextPage();
-                    }
-                });
+            search.subscribeOn(Schedulers.newThread())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(new Action1<SearchResult>() {
+                        @Override
+                        public void call(final SearchResult searchResult) {
+                            updateItemsInList(searchResult);
+                            setNextPage();
+                        }
+                    });
+        }
     }
 
     private void updateItemsInList(SearchResult searchResult) {
@@ -91,6 +99,14 @@ public class FlickrItemListActivity extends AppCompatActivity implements OnLoadM
     @Override
     public void onLoadMore() {
         loadFlickrItems();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.options_menu, menu);
+        mSearchView = (SearchView) menu.findItem(R.id.search).getActionView();
+        mSearchView.setOnQueryTextListener(this);
+        return true;
     }
 
     /**
@@ -131,5 +147,25 @@ public class FlickrItemListActivity extends AppCompatActivity implements OnLoadM
         intent.putExtra(FlickrItemDetailFragment.ARG_ITEM_MEDIUM_URL, item.getUrl_m());
 
         startActivity(intent);
+    }
+
+    @Override
+    public boolean onQueryTextSubmit(String query) {
+        resetStates();
+        mSearchTerm = query;
+        loadFlickrItems();
+        return true;
+    }
+
+    private void resetStates() {
+        mFlickrItems.clear();
+        mCurrentPage = 0;
+        mEndlessScrollListener.reset();
+        mSearchView.clearFocus();
+    }
+
+    @Override
+    public boolean onQueryTextChange(String newText) {
+        return false;
     }
 }
