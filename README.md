@@ -1,5 +1,6 @@
 [![CircleCI](https://circleci.com/gh/QVDev/FlickrDemo.svg?style=svg)](https://circleci.com/gh/QVDev/FlickrDemo)
 [![codecov](https://codecov.io/gh/QVDev/FlickrDemo/branch/develop/graph/badge.svg)](https://codecov.io/gh/QVDev/FlickrDemo)
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/1b3ac4c69fa945b78c9b3bb9f0f260d8)](https://www.codacy.com/app/feedbackandroid/FlickrDemo?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=QVDev/FlickrDemo&amp;utm_campaign=Badge_Grade)
 
 # FlickrDemo
 Demo application to search for images on Flickr using the Flickr-Api. Using retrofit, rxjava and jsonscheme2pojo
